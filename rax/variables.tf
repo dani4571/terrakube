@@ -8,3 +8,4 @@ variable "image_id" {}
 variable "name_prefix" {}
 variable "private_net_id" {}
 variable "worker_count" {}
+variable "pubkey_path" {}

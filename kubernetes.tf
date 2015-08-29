@@ -8,7 +8,7 @@ provider "openstack" {
 # Create a keypair
 resource "openstack_compute_keypair_v2" "keypair" {
   name = "${var.name_prefix}-keypair"
-  public_key = "${file("/home/stack/.ssh/id_rsa.pub")}"
+  public_key = "${file("${var.pubkey_path}")}"
 }
 
 resource "template_file" "cloudconf" {
@@ -37,7 +37,7 @@ resource "openstack_compute_instance_v2" "suda-terraform-kube-master" {
       destination = "/tmp/known_tokens.csv"
       connection {
         user = "core"
-        key_file = "/home/stack/.ssh/id_rsa"
+        key_file = "${var.pubkey_path}"
         agent = false
       } 
   }
@@ -80,7 +80,7 @@ resource "openstack_compute_instance_v2" "suda-terraform-kube-master" {
      ]
      connection {
         user = "core"
-        key_file = "/home/stack/.ssh/id_rsa"
+        key_file = "${var.pubkey_path}"
         agent = false
      }
    }

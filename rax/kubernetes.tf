@@ -8,7 +8,7 @@ provider "openstack" {
 # Create a keypair
 resource "openstack_compute_keypair_v2" "keypair" {
   name = "${var.name_prefix}-keypair"
-  public_key = "${file("/root/.ssh/id_rsa.pub")}"
+  public_key = "${file("${var.pubkey_path}")}"
   region = "${var.region}"
 }
 

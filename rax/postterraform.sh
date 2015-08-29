@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MASTER_IP=`nova show suda-kube_master | grep accessIPv4 | awk '{print $4}'`
+MASTER_IP=`nova show DanKube_master | grep accessIPv4 | awk '{print $4}'`
 cat tokens.csv > known_tokens.csv
 scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa known_tokens.csv core@${MASTER_IP}:/home/core/known_tokens.csv
 ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa core@${MASTER_IP} sudo /usr/bin/mkdir -p /var/lib/kube-apiserver

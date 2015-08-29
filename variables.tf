@@ -10,6 +10,8 @@ variable "name_prefix" {}
 variable "private_net_id" {}
 variable "worker_count" {}
 
+variable "pubkey_path" {}
+
 variable "etcd_name" {}
 variable "etcd_discovery" {}
 variable "service_cluster_ip_range" {}

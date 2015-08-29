@@ -8,3 +8,5 @@ name_prefix = "name_prefix"
 flavor_id = "flavor_id"
 private_net_id = "private_net_id"
 worker_count = "worker_count"
+
+pubkey_path= "/home/ubuntu/.ssh/id_rsa.pub"
