@@ -28,7 +28,7 @@ resource "openstack_compute_instance_v2" "suda-terraform-kube-master" {
    flavor_id = "${var.flavor_id}"
    key_pair = "${openstack_compute_keypair_v2.keypair.name}"
    config_drive="true"
-   user_data="${file("cloud-config.yaml")}"
+   user_data="${file("kube-master-config.yaml")}"
    network {
       uuid = "${var.private_net_id}"
    }
@@ -55,8 +55,8 @@ resource "openstack_compute_instance_v2" "suda-terraform-kube-master" {
 
         "sudo bash -c \"cat <<'EOF' > /opt/.kubernetes_auth\nadmin:admin\nEOF\"",
         "sudo git clone https://github.com/thommay/kubernetes_nginx /opt/kubernetes_nginx",
-        "sudo /opt/kubernetes_nginx/git-kubernetes-nginx.sh",
         "sudo /usr/bin/cp /opt/.kubernetes_auth /opt/kubernetes_nginx/.kubernetes_auth",
+        "sudo /opt/kubernetes_nginx/git-kubernetes-nginx.sh",
 
         "sudo mkdir -p /etc/etcd",
         "sudo bash -c \"echo 'name:${var.etcd_name}' > /etc/etcd/etcd.conf\"",
@@ -73,10 +73,17 @@ resource "openstack_compute_instance_v2" "suda-terraform-kube-master" {
 
         "sudo chown -R core:core /opt/kubernetes",
         "sudo mkdir /opt/bin",
+
+
         "sudo /usr/bin/ln -sf /opt/kubernetes/server/bin/kube-apiserver /opt/bin/kube-apiserver",
         "sudo /usr/bin/mkdir -p /var/lib/kube-apiserver",
         "sudo chown -R core:core /var/lib/kube-apiserver",
         "sudo cp /tmp/known_tokens.csv /var/lib/kube-apiserver/known_tokens.csv",
+
+        /usr/bin/ln -sf /opt/kubernetes/server/bin/kube-controller-manager /opt/bin/kube-controller-manager
+
+        /usr/bin/ln -sf /opt/kubernetes/server/bin/kube-scheduler /opt/bin/kube-scheduler
+
      ]
      connection {
         user = "core"
